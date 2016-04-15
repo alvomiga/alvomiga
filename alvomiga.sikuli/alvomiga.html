@@ -70,6 +70,7 @@
 <h2>alvomiga.sikuli</h2> <a href="alvomiga.zip">(Download this script)</a>
 </div>
 <pre class="sikuli-code">
+<span class="kw">from</span> java.awt <span class="kw">import</span> Robot
 <span class="kw">import</span> random
 <span class="kw">import</span> time
 
@@ -104,31 +105,30 @@
 
     <span class="kw">if</span> style == <span class="str">'odd'</span>:
         <span class="kw">for</span> i <span class="kw">in</span> range (getBetLevel(stepBet)):
-            Region(<span class="dig">691</span>,<span class="dig">565</span>,<span class="dig">76</span>,<span class="dig">78</span>).<span class="skw">click</span>()
+            Region(<span class="dig">681</span>,<span class="dig">514</span>,<span class="dig">62</span>,<span class="dig">73</span>).<span class="skw">click</span>()
 
     <span class="kw">elif</span> style == <span class="str">'even'</span>:
         <span class="kw">for</span> i <span class="kw">in</span> range (getBetLevel(stepBet)):
-            Region(<span class="dig">924</span>,<span class="dig">722</span>,<span class="dig">88</span>,<span class="dig">77</span>).<span class="skw">click</span>()
+            Region(<span class="dig">960</span>,<span class="dig">685</span>,<span class="dig">64</span>,<span class="dig">73</span>).<span class="skw">click</span>()
 
     <span class="kw">elif</span> style == <span class="str">'high'</span>:
         <span class="kw">for</span> i <span class="kw">in</span> range (getBetLevel(stepBet)):
-            Region(<span class="dig">605</span>,<span class="dig">529</span>,<span class="dig">91</span>,<span class="dig">64</span>).<span class="skw">click</span>()
+            Region(<span class="dig">599</span>,<span class="dig">466</span>,<span class="dig">64</span>,<span class="dig">69</span>).<span class="skw">click</span>()
 
     <span class="kw">elif</span> style == <span class="str">'low'</span>:
         <span class="kw">for</span> i <span class="kw">in</span> range (getBetLevel(stepBet)):
-            Region(<span class="dig">1030</span>,<span class="dig">790</span>,<span class="dig">72</span>,<span class="dig">63</span>).<span class="skw">click</span>()
+            Region(<span class="dig">1055</span>,<span class="dig">751</span>,<span class="dig">74</span>,<span class="dig">76</span>).<span class="skw">click</span>()
 
-    Region(<span class="dig">729</span>,<span class="dig">828</span>,<span class="dig">79</span>,<span class="dig">84</span>).<span class="skw">click</span>()
-    time.<span class="skw">sleep</span>(<span class="dig">1</span>)
+    <span class="kw">elif</span> style == <span class="str">'red'</span>:
+        <span class="kw">for</span> i <span class="kw">in</span> range (getBetLevel(stepBet)):
+            Region(<span class="dig">859</span>,<span class="dig">636</span>,<span class="dig">66</span>,<span class="dig">53</span>).<span class="skw">click</span>()
 
-<span class="kw">def</span> doFreeSpin():
-    Region(<span class="dig">729</span>,<span class="dig">828</span>,<span class="dig">79</span>,<span class="dig">84</span>).<span class="skw">click</span>()
-    time.<span class="skw">sleep</span>(<span class="dig">1</span>)
+    <span class="kw">elif</span> style == <span class="str">'black'</span>:
+        <span class="kw">for</span> i <span class="kw">in</span> range (getBetLevel(stepBet)):
+            Region(<span class="dig">769</span>,<span class="dig">581</span>,<span class="dig">63</span>,<span class="dig">50</span>).<span class="skw">click</span>()
 
-<span class="kw">def</span> doFreeSpinAndGetText():
-    Region(<span class="dig">717</span>,<span class="dig">828</span>,<span class="dig">95</span>,<span class="dig">90</span>).<span class="skw">click</span>()
+    Region(<span class="dig">705</span>,<span class="dig">799</span>,<span class="dig">109</span>,<span class="dig">108</span>).<span class="skw">click</span>()
     time.<span class="skw">sleep</span>(<span class="dig">1</span>)
-    <span class="kw">return</span> Region(<span class="dig">429</span>,<span class="dig">813</span>,<span class="dig">87</span>,<span class="dig">27</span>).text()
 
 <span class="kw">def</span> checkStyleFromSpin(style, textFromSpin):
     textFromSpin = textFromSpin.lower()
@@ -141,6 +141,10 @@
         expectedText = [<span class="str">'low'</span>, <span class="str">'law'</span>]
     <span class="kw">elif</span> style == <span class="str">'high'</span>:
         expectedText = [<span class="str">'high'</span>]
+    <span class="kw">elif</span> style == <span class="str">'red'</span>:
+        expectedText = [<span class="str">'red'</span>]
+    <span class="kw">elif</span> style == <span class="str">'black'</span>:
+        expectedText = [<span class="str">'black'</span>]
 
     counter = <span class="dig">0</span>
     <span class="kw">for</span> i <span class="kw">in</span> expectedText:
@@ -149,49 +153,80 @@
 
     <span class="kw">return</span> counter
 
+<span class="kw">def</span> checkTextAndColorFromSpin():
+    Region(<span class="dig">717</span>,<span class="dig">828</span>,<span class="dig">95</span>,<span class="dig">90</span>).<span class="skw">click</span>()
+    time.<span class="skw">sleep</span>(<span class="dig">1</span>)
+    textFromSpin = Region(<span class="dig">435</span>,<span class="dig">754</span>,<span class="dig">73</span>,<span class="dig">24</span>).text()
+    colorRegion = <span class="skw">find</span>(<img src="1460730720660.png" />)
+    colorPattern = colorRegion.getTopLeft().offset(<span class="dig">5</span>,<span class="dig">5</span>)
+    robot = Robot()
+    colorRobot = robot.getPixelColor(colorPattern.x, colorPattern.y)
+    color = ( colorRobot.getRed())
+    <span class="kw">if</span> color == <span class="dig">173</span>:
+        colorRed = <span class="str">'red'</span>
+        textFromSpin = textFromSpin + colorRed
+        <span class="kw">return</span> textFromSpin
+    <span class="kw">elif</span> color == <span class="dig">31</span>:
+        colorBlack = <span class="str">'black'</span>
+        textFromSpin = textFromSpin + colorBlack
+        <span class="kw">return</span> textFromSpin
+    <span class="kw">else</span>:
+        <span class="kw">return</span> textFromSpin
+
 <span class="kw">def</span> waitForRow(expectedInRow, maxToleranceTime, startTime):
 
     evenInRow = <span class="dig">0</span>
     oddInRow = <span class="dig">0</span>
     lowInRow = <span class="dig">0</span>
     highInRow = <span class="dig">0</span>
+    redInRow = <span class="dig">0</span>
+    blackInRow = <span class="dig">0</span>
 
     counter = <span class="dig">0</span>
 
-    <span class="kw">while</span> evenInRow != expectedInRow <span class="kw">and</span> oddInRow != expectedInRow <span class="kw">and</span> lowInRow != expectedInRow <span class="kw">and</span> highInRow != expectedInRow:
+    <span class="kw">while</span> evenInRow != expectedInRow <span class="kw">and</span> oddInRow != expectedInRow <span class="kw">and</span> lowInRow != expectedInRow <span class="kw">and</span> highInRow != expectedInRow <span class="kw">and</span> redInRow != expectedInRow <span class="kw">and</span> blackInRow != expectedInRow:
 
-        textFromSpin = doFreeSpinAndGetText()
-        <span class="kw">print</span> startTime
-        <span class="kw">print</span> time.time() - startTime
+        textAndColorFromSpin = checkTextAndColorFromSpin()
 
         <span class="kw">if</span> isElapsedTimeInTolerance(maxToleranceTime, time.time() - startTime) == False:
             closeAndStartRoulette()
             startTime = time.time()
-            textFromSpin = doFreeSpinAndGetText()
+            textAndColorFromSpin = checkTextAndColorFromSpin()
 
-        <span class="kw">if</span> checkStyleFromSpin(<span class="str">'even'</span>, textFromSpin) == <span class="dig">1</span>:
+        <span class="kw">if</span> checkStyleFromSpin(<span class="str">'even'</span>, textAndColorFromSpin) == <span class="dig">1</span>:
             evenInRow += <span class="dig">1</span>
-        <span class="kw">elif</span> checkStyleFromSpin(<span class="str">'even'</span>, textFromSpin) == <span class="dig">0</span>:
+        <span class="kw">elif</span> checkStyleFromSpin(<span class="str">'even'</span>, textAndColorFromSpin) == <span class="dig">0</span>:
             evenInRow = <span class="dig">0</span>
 
-        <span class="kw">if</span> checkStyleFromSpin(<span class="str">'odd'</span>, textFromSpin) == <span class="dig">1</span>:
+        <span class="kw">if</span> checkStyleFromSpin(<span class="str">'odd'</span>, textAndColorFromSpin) == <span class="dig">1</span>:
             oddInRow += <span class="dig">1</span>
-        <span class="kw">elif</span> checkStyleFromSpin(<span class="str">'odd'</span>, textFromSpin) == <span class="dig">0</span>:
+        <span class="kw">elif</span> checkStyleFromSpin(<span class="str">'odd'</span>, textAndColorFromSpin) == <span class="dig">0</span>:
             oddInRow = <span class="dig">0</span>
 
-        <span class="kw">if</span> checkStyleFromSpin(<span class="str">'low'</span>, textFromSpin) == <span class="dig">1</span>:
+        <span class="kw">if</span> checkStyleFromSpin(<span class="str">'low'</span>, textAndColorFromSpin) == <span class="dig">1</span>:
             lowInRow += <span class="dig">1</span>
-        <span class="kw">elif</span> checkStyleFromSpin(<span class="str">'low'</span>, textFromSpin) == <span class="dig">0</span>:
+        <span class="kw">elif</span> checkStyleFromSpin(<span class="str">'low'</span>, textAndColorFromSpin) == <span class="dig">0</span>:
             lowInRow = <span class="dig">0</span>
 
-        <span class="kw">if</span> checkStyleFromSpin(<span class="str">'high'</span>, textFromSpin) == <span class="dig">1</span>:
+        <span class="kw">if</span> checkStyleFromSpin(<span class="str">'high'</span>, textAndColorFromSpin) == <span class="dig">1</span>:
             highInRow += <span class="dig">1</span>
-        <span class="kw">elif</span> checkStyleFromSpin(<span class="str">'high'</span>, textFromSpin) == <span class="dig">0</span>:
+        <span class="kw">elif</span> checkStyleFromSpin(<span class="str">'high'</span>, textAndColorFromSpin) == <span class="dig">0</span>:
             highInRow = <span class="dig">0</span>
+
+        <span class="kw">if</span> checkStyleFromSpin(<span class="str">'red'</span>, textAndColorFromSpin) == <span class="dig">1</span>:
+            redInRow += <span class="dig">1</span>
+        <span class="kw">elif</span> checkStyleFromSpin(<span class="str">'red'</span>, textAndColorFromSpin) == <span class="dig">0</span>:
+            redInRow = <span class="dig">0</span>
+
+        <span class="kw">if</span> checkStyleFromSpin(<span class="str">'black'</span>, textAndColorFromSpin) == <span class="dig">1</span>:
+            blackInRow += <span class="dig">1</span>
+        <span class="kw">elif</span> checkStyleFromSpin(<span class="str">'black'</span>, textAndColorFromSpin) == <span class="dig">0</span>:
+            blackInRow = <span class="dig">0</span>
 
         counter += <span class="dig">1</span>
 
-    stylesResult = {<span class="str">'even'</span> : evenInRow, <span class="str">'odd'</span> : oddInRow, <span class="str">'low'</span> : lowInRow, <span class="str">'high'</span> : highInRow}
+    stylesResult = {<span class="str">'even'</span> : evenInRow, <span class="str">'odd'</span> : oddInRow, <span class="str">'low'</span> : lowInRow, <span class="str">'high'</span> : highInRow, <span class="str">'red'</span> : redInRow, <span class="str">'black'</span> : blackInRow}
+    <span class="kw">print</span> stylesResult
     <span class="kw">return</span> max(stylesResult, key=stylesResult.get)
 
 <span class="kw">def</span> closeAndStartRoulette():
