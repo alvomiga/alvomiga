@@ -1,3 +1,4 @@
+from java.awt import Robot
 import random
 import time
 
@@ -32,31 +33,30 @@ def placeBet(style, stepBet):
     
     if style == 'odd':
         for i in range (getBetLevel(stepBet)):
-            Region(691,565,76,78).click()
+            Region(681,514,62,73).click()
     
     elif style == 'even':
         for i in range (getBetLevel(stepBet)):
-            Region(924,722,88,77).click()
+            Region(960,685,64,73).click()
 
     elif style == 'high':
         for i in range (getBetLevel(stepBet)):
-            Region(605,529,91,64).click()
+            Region(599,466,64,69).click()
             
     elif style == 'low':
         for i in range (getBetLevel(stepBet)):
-            Region(1030,790,72,63).click()
-            
-    Region(729,828,79,84).click()
-    time.sleep(1)
+            Region(1055,751,74,76).click()
 
-def doFreeSpin():
-    Region(729,828,79,84).click()
+    elif style == 'red':
+        for i in range (getBetLevel(stepBet)):
+            Region(859,636,66,53).click()
+            
+    elif style == 'black':
+        for i in range (getBetLevel(stepBet)):
+            Region(769,581,63,50).click()
+            
+    Region(705,799,109,108).click()
     time.sleep(1)
-    
-def doFreeSpinAndGetText():
-    Region(717,828,95,90).click()
-    time.sleep(1)
-    return Region(429,813,87,27).text()
             
 def checkStyleFromSpin(style, textFromSpin):
     textFromSpin = textFromSpin.lower()
@@ -69,7 +69,11 @@ def checkStyleFromSpin(style, textFromSpin):
         expectedText = ['low', 'law']
     elif style == 'high':
         expectedText = ['high']  
-
+    elif style == 'red':
+        expectedText = ['red']  
+    elif style == 'black':
+        expectedText = ['black']  
+        
     counter = 0
     for i in expectedText:
         if i in textFromSpin:
@@ -77,49 +81,80 @@ def checkStyleFromSpin(style, textFromSpin):
 
     return counter
 
+def checkTextAndColorFromSpin():
+    Region(717,828,95,90).click()
+    time.sleep(1)
+    textFromSpin = Region(435,754,73,24).text()
+    colorRegion = find("1460730720660.png")
+    colorPattern = colorRegion.getTopLeft().offset(5,5)
+    robot = Robot()
+    colorRobot = robot.getPixelColor(colorPattern.x, colorPattern.y)
+    color = ( colorRobot.getRed())
+    if color == 173:
+        colorRed = 'red'
+        textFromSpin = textFromSpin + colorRed
+        return textFromSpin
+    elif color == 31:
+        colorBlack = 'black'
+        textFromSpin = textFromSpin + colorBlack
+        return textFromSpin
+    else: 
+        return textFromSpin
+    
 def waitForRow(expectedInRow, maxToleranceTime, startTime):
     
     evenInRow = 0
     oddInRow = 0
     lowInRow = 0
     highInRow = 0
+    redInRow = 0
+    blackInRow = 0
     
     counter = 0
     
-    while evenInRow != expectedInRow and oddInRow != expectedInRow and lowInRow != expectedInRow and highInRow != expectedInRow:
+    while evenInRow != expectedInRow and oddInRow != expectedInRow and lowInRow != expectedInRow and highInRow != expectedInRow and redInRow != expectedInRow and blackInRow != expectedInRow:
         
-        textFromSpin = doFreeSpinAndGetText()
-        print startTime
-        print time.time() - startTime
-        
+        textAndColorFromSpin = checkTextAndColorFromSpin()
+
         if isElapsedTimeInTolerance(maxToleranceTime, time.time() - startTime) == False:
             closeAndStartRoulette()
             startTime = time.time()
-            textFromSpin = doFreeSpinAndGetText()
+            textAndColorFromSpin = checkTextAndColorFromSpin()
         
-        if checkStyleFromSpin('even', textFromSpin) == 1:
+        if checkStyleFromSpin('even', textAndColorFromSpin) == 1:
             evenInRow += 1
-        elif checkStyleFromSpin('even', textFromSpin) == 0:
+        elif checkStyleFromSpin('even', textAndColorFromSpin) == 0:
             evenInRow = 0
             
-        if checkStyleFromSpin('odd', textFromSpin) == 1:
+        if checkStyleFromSpin('odd', textAndColorFromSpin) == 1:
             oddInRow += 1
-        elif checkStyleFromSpin('odd', textFromSpin) == 0:
+        elif checkStyleFromSpin('odd', textAndColorFromSpin) == 0:
             oddInRow = 0
 
-        if checkStyleFromSpin('low', textFromSpin) == 1:
+        if checkStyleFromSpin('low', textAndColorFromSpin) == 1:
             lowInRow += 1
-        elif checkStyleFromSpin('low', textFromSpin) == 0:
+        elif checkStyleFromSpin('low', textAndColorFromSpin) == 0:
             lowInRow = 0
 
-        if checkStyleFromSpin('high', textFromSpin) == 1:
+        if checkStyleFromSpin('high', textAndColorFromSpin) == 1:
             highInRow += 1
-        elif checkStyleFromSpin('high', textFromSpin) == 0:
+        elif checkStyleFromSpin('high', textAndColorFromSpin) == 0:
             highInRow = 0
 
-        counter += 1
+        if checkStyleFromSpin('red', textAndColorFromSpin) == 1:
+            redInRow += 1
+        elif checkStyleFromSpin('red', textAndColorFromSpin) == 0:
+            redInRow = 0
 
-    stylesResult = {'even' : evenInRow, 'odd' : oddInRow, 'low' : lowInRow, 'high' : highInRow} 
+        if checkStyleFromSpin('black', textAndColorFromSpin) == 1:
+            blackInRow += 1
+        elif checkStyleFromSpin('black', textAndColorFromSpin) == 0:
+            blackInRow = 0
+            
+        counter += 1
+    
+    stylesResult = {'even' : evenInRow, 'odd' : oddInRow, 'low' : lowInRow, 'high' : highInRow, 'red' : redInRow, 'black' : blackInRow} 
+    print stylesResult
     return max(stylesResult, key=stylesResult.get)
 
 def closeAndStartRoulette():
