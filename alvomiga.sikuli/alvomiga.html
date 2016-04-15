@@ -1,0 +1,245 @@
+
+<html>
+   <head>
+      <style type="text/css">
+         .sikuli-code {
+            font-size: 20px;
+            font-family: "Osaka-mono", Monospace;
+            line-height: 1.5em;
+            display:table-cell;
+            white-space: pre-wrap;       /* css-3 */
+            white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+            white-space: -pre-wrap;      /* Opera 4-6 */
+            white-space: -o-pre-wrap;    /* Opera 7 */
+            word-wrap: break-word;       /* Internet Explorer 5.5+ */
+            width: 99%;   /* remove horizontal scroll-bar when viewing in IE7 */
+         }
+         .sikuli-code img {
+            vertical-align: middle;
+            margin: 2px;
+            border: 1px solid #ccc;
+            padding: 2px;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            -moz-box-shadow: 1px 1px 1px gray;
+            -webkit-box-shadow: 1px 1px 2px gray;
+         }
+         .kw {
+            color: blue;
+         }
+         .skw {
+            color: rgb(63, 127, 127);
+         }
+
+         .str {
+            color: rgb(128, 0, 0);
+         }
+
+         .dig {
+            color: rgb(128, 64, 0);
+         }
+
+         .cmt {
+            color: rgb(200, 0, 200);
+         }
+
+         h2 {
+            display: inline;
+            font-weight: normal;
+         }
+
+         .info {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+            display: none;
+         }
+
+         a {
+            color: #9D2900;
+         }
+
+         body {
+            font-family: "Trebuchet MS", Arial, Sans-Serif;
+         }
+
+      </style>
+   </head>
+<body>
+<div class="info">
+<h2>alvomiga.sikuli</h2> <a href="alvomiga.zip">(Download this script)</a>
+</div>
+<pre class="sikuli-code">
+<span class="kw">import</span> random
+<span class="kw">import</span> time
+
+<span class="kw">global</span> startTime
+
+<span class="kw">def</span> isWin():
+    <span class="kw">if</span> exists(<img src="1460466965057.png" />):
+        <span class="kw">return</span> True
+    <span class="kw">else</span>:
+        <span class="kw">return</span> False
+
+<span class="kw">def</span> clearBet():
+    <span class="skw">click</span>(<img src="1460466979161.png" />)
+
+
+<span class="kw">def</span> getBetLevel(stepBet):
+    <span class="kw">if</span> stepBet == <span class="dig">0</span>:
+        <span class="kw">return</span> <span class="dig">1</span>
+    <span class="kw">elif</span> stepBet == <span class="dig">1</span>:
+        <span class="kw">return</span> <span class="dig">2</span>
+    <span class="kw">elif</span> stepBet == <span class="dig">2</span>:
+        <span class="kw">return</span> <span class="dig">4</span>
+    <span class="kw">elif</span> stepBet == <span class="dig">3</span>:
+        <span class="kw">return</span> <span class="dig">8</span>
+    <span class="kw">elif</span> stepBet == <span class="dig">4</span>:
+        <span class="kw">return</span> <span class="dig">16</span>
+    <span class="cmt">#elif stepBet == 5:</span>
+        <span class="cmt">#return 32</span>
+
+<span class="cmt">#place bet on a opposite style after defined row</span>
+<span class="kw">def</span> placeBet(style, stepBet):
+
+    <span class="kw">if</span> style == <span class="str">'odd'</span>:
+        <span class="kw">for</span> i <span class="kw">in</span> range (getBetLevel(stepBet)):
+            Region(<span class="dig">691</span>,<span class="dig">565</span>,<span class="dig">76</span>,<span class="dig">78</span>).<span class="skw">click</span>()
+
+    <span class="kw">elif</span> style == <span class="str">'even'</span>:
+        <span class="kw">for</span> i <span class="kw">in</span> range (getBetLevel(stepBet)):
+            Region(<span class="dig">924</span>,<span class="dig">722</span>,<span class="dig">88</span>,<span class="dig">77</span>).<span class="skw">click</span>()
+
+    <span class="kw">elif</span> style == <span class="str">'high'</span>:
+        <span class="kw">for</span> i <span class="kw">in</span> range (getBetLevel(stepBet)):
+            Region(<span class="dig">605</span>,<span class="dig">529</span>,<span class="dig">91</span>,<span class="dig">64</span>).<span class="skw">click</span>()
+
+    <span class="kw">elif</span> style == <span class="str">'low'</span>:
+        <span class="kw">for</span> i <span class="kw">in</span> range (getBetLevel(stepBet)):
+            Region(<span class="dig">1030</span>,<span class="dig">790</span>,<span class="dig">72</span>,<span class="dig">63</span>).<span class="skw">click</span>()
+
+    Region(<span class="dig">729</span>,<span class="dig">828</span>,<span class="dig">79</span>,<span class="dig">84</span>).<span class="skw">click</span>()
+    time.<span class="skw">sleep</span>(<span class="dig">1</span>)
+
+<span class="kw">def</span> doFreeSpin():
+    Region(<span class="dig">729</span>,<span class="dig">828</span>,<span class="dig">79</span>,<span class="dig">84</span>).<span class="skw">click</span>()
+    time.<span class="skw">sleep</span>(<span class="dig">1</span>)
+
+<span class="kw">def</span> doFreeSpinAndGetText():
+    Region(<span class="dig">717</span>,<span class="dig">828</span>,<span class="dig">95</span>,<span class="dig">90</span>).<span class="skw">click</span>()
+    time.<span class="skw">sleep</span>(<span class="dig">1</span>)
+    <span class="kw">return</span> Region(<span class="dig">429</span>,<span class="dig">813</span>,<span class="dig">87</span>,<span class="dig">27</span>).text()
+
+<span class="kw">def</span> checkStyleFromSpin(style, textFromSpin):
+    textFromSpin = textFromSpin.lower()
+
+    <span class="kw">if</span> style == <span class="str">'odd'</span>:
+        expectedText = [<span class="str">'odd'</span>]
+    <span class="kw">elif</span> style == <span class="str">'even'</span>:
+        expectedText = [<span class="str">'even'</span>, <span class="str">'evan'</span>]
+    <span class="kw">elif</span> style == <span class="str">'low'</span>:
+        expectedText = [<span class="str">'low'</span>, <span class="str">'law'</span>]
+    <span class="kw">elif</span> style == <span class="str">'high'</span>:
+        expectedText = [<span class="str">'high'</span>]
+
+    counter = <span class="dig">0</span>
+    <span class="kw">for</span> i <span class="kw">in</span> expectedText:
+        <span class="kw">if</span> i <span class="kw">in</span> textFromSpin:
+            counter += <span class="dig">1</span>
+
+    <span class="kw">return</span> counter
+
+<span class="kw">def</span> waitForRow(expectedInRow, maxToleranceTime, startTime):
+
+    evenInRow = <span class="dig">0</span>
+    oddInRow = <span class="dig">0</span>
+    lowInRow = <span class="dig">0</span>
+    highInRow = <span class="dig">0</span>
+
+    counter = <span class="dig">0</span>
+
+    <span class="kw">while</span> evenInRow != expectedInRow <span class="kw">and</span> oddInRow != expectedInRow <span class="kw">and</span> lowInRow != expectedInRow <span class="kw">and</span> highInRow != expectedInRow:
+
+        textFromSpin = doFreeSpinAndGetText()
+        <span class="kw">print</span> startTime
+        <span class="kw">print</span> time.time() - startTime
+
+        <span class="kw">if</span> isElapsedTimeInTolerance(maxToleranceTime, time.time() - startTime) == False:
+            closeAndStartRoulette()
+            startTime = time.time()
+            textFromSpin = doFreeSpinAndGetText()
+
+        <span class="kw">if</span> checkStyleFromSpin(<span class="str">'even'</span>, textFromSpin) == <span class="dig">1</span>:
+            evenInRow += <span class="dig">1</span>
+        <span class="kw">elif</span> checkStyleFromSpin(<span class="str">'even'</span>, textFromSpin) == <span class="dig">0</span>:
+            evenInRow = <span class="dig">0</span>
+
+        <span class="kw">if</span> checkStyleFromSpin(<span class="str">'odd'</span>, textFromSpin) == <span class="dig">1</span>:
+            oddInRow += <span class="dig">1</span>
+        <span class="kw">elif</span> checkStyleFromSpin(<span class="str">'odd'</span>, textFromSpin) == <span class="dig">0</span>:
+            oddInRow = <span class="dig">0</span>
+
+        <span class="kw">if</span> checkStyleFromSpin(<span class="str">'low'</span>, textFromSpin) == <span class="dig">1</span>:
+            lowInRow += <span class="dig">1</span>
+        <span class="kw">elif</span> checkStyleFromSpin(<span class="str">'low'</span>, textFromSpin) == <span class="dig">0</span>:
+            lowInRow = <span class="dig">0</span>
+
+        <span class="kw">if</span> checkStyleFromSpin(<span class="str">'high'</span>, textFromSpin) == <span class="dig">1</span>:
+            highInRow += <span class="dig">1</span>
+        <span class="kw">elif</span> checkStyleFromSpin(<span class="str">'high'</span>, textFromSpin) == <span class="dig">0</span>:
+            highInRow = <span class="dig">0</span>
+
+        counter += <span class="dig">1</span>
+
+    stylesResult = {<span class="str">'even'</span> : evenInRow, <span class="str">'odd'</span> : oddInRow, <span class="str">'low'</span> : lowInRow, <span class="str">'high'</span> : highInRow}
+    <span class="kw">return</span> max(stylesResult, key=stylesResult.get)
+
+<span class="kw">def</span> closeAndStartRoulette():
+    Region(<span class="dig">1621</span>,<span class="dig">182</span>,<span class="dig">14</span>,<span class="dig">19</span>).<span class="skw">click</span>()
+    time.<span class="skw">sleep</span>(<span class="dig">1</span>)
+    Region(<span class="dig">304</span>,<span class="dig">502</span>,<span class="dig">167</span>,<span class="dig">108</span>).<span class="skw">click</span>()
+    time.<span class="skw">sleep</span>(<span class="dig">1</span>)
+    Region(<span class="dig">685</span>,<span class="dig">624</span>,<span class="dig">607</span>,<span class="dig">34</span>).<span class="skw">click</span>()
+    time.<span class="skw">sleep</span>(<span class="dig">15</span>)
+
+<span class="kw">def</span> isElapsedTimeInTolerance(maxToleranceTime, elapsedTime):
+    <span class="kw">if</span> elapsedTime &gt; maxToleranceTime:
+        <span class="kw">return</span> False
+    <span class="kw">else</span>:
+        <span class="kw">return</span> True
+
+<span class="kw">def</span> runWaitForRowStrategy(numberInRow):
+    betLevel = <span class="dig">0</span>
+    numberOfWinGames = <span class="dig">0</span>
+    numberOfLoseGames = <span class="dig">0</span>
+    balance = <span class="dig">544</span>
+    maxToleranceTime = <span class="dig">1080</span>
+
+    startTime = time.time()
+    style = waitForRow(numberInRow, maxToleranceTime, startTime)
+
+    <span class="kw">while</span> balance &gt; <span class="dig">424</span> <span class="kw">and</span> numberOfLoseGames &lt; <span class="dig">2</span>:
+        <span class="kw">if</span> betLevel &lt; <span class="dig">5</span>:
+
+            placeBet(style, betLevel)
+
+            <span class="kw">if</span> isWin() == False:
+                betLevel = betLevel + <span class="dig">1</span>
+            <span class="kw">else</span>:
+                clearBet()
+                betLevel = <span class="dig">0</span>
+                numberOfWinGames = numberOfWinGames + <span class="dig">1</span>
+                balance += <span class="dig">2</span>
+                <span class="kw">print</span> <span class="str">"number of win games: "</span>, numberOfWinGames, <span class="str">"balance: "</span>, balance, <span class="str">"style: "</span>, style
+                style = waitForRow(numberInRow, maxToleranceTime, startTime)
+        <span class="kw">else</span>:
+            betLevel = <span class="dig">0</span>
+            numberOfLoseGames = numberOfLoseGames + <span class="dig">1</span>
+            balance -= <span class="dig">62</span>
+            <span class="kw">print</span> <span class="str">"number of lose games"</span>, numberOfLoseGames, <span class="str">"balance: "</span>, balance, <span class="str">"style: "</span>, style
+            style = waitForRow(numberInRow, maxToleranceTime, startTime)
+
+runWaitForRowStrategy(<span class="dig">8</span>)
+</pre>
+</body>
+</html>
