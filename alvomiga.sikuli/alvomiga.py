@@ -3,6 +3,8 @@ import random
 import time
 
 global startTime
+global spinCounterTotal
+spinCounterTotal = 0
 
 def isWin(): 
     if exists("1460466965057.png"):
@@ -57,6 +59,8 @@ def placeBet(style, stepBet):
             
     Region(705,799,109,108).click()
     time.sleep(1)
+    global spinCounterTotal
+    spinCounterTotal +=1
             
 def checkStyleFromSpin(style, textFromSpin):
     textFromSpin = textFromSpin.lower()
@@ -85,16 +89,17 @@ def checkTextAndColorFromSpin():
     Region(717,828,95,90).click()
     time.sleep(1)
     textFromSpin = Region(435,754,73,24).text()
-    colorRegion = find("1460730720660.png")
+    colorRegion = Region(449,733,43,20)
     colorPattern = colorRegion.getTopLeft().offset(5,5)
     robot = Robot()
     colorRobot = robot.getPixelColor(colorPattern.x, colorPattern.y)
     color = ( colorRobot.getRed())
-    if color == 173:
+    print color
+    if color > 165 and color < 179:
         colorRed = 'red'
         textFromSpin = textFromSpin + colorRed
         return textFromSpin
-    elif color == 31:
+    elif color > 24 and color < 38:
         colorBlack = 'black'
         textFromSpin = textFromSpin + colorBlack
         return textFromSpin
@@ -111,6 +116,7 @@ def waitForRow(expectedInRow, maxToleranceTime, startTime):
     blackInRow = 0
     
     counter = 0
+    spinCounterInRow = 0
     
     while evenInRow != expectedInRow and oddInRow != expectedInRow and lowInRow != expectedInRow and highInRow != expectedInRow and redInRow != expectedInRow and blackInRow != expectedInRow:
         
@@ -152,6 +158,9 @@ def waitForRow(expectedInRow, maxToleranceTime, startTime):
             blackInRow = 0
             
         counter += 1
+
+        global spinCounterTotal
+        spinCounterTotal += 1
     
     stylesResult = {'even' : evenInRow, 'odd' : oddInRow, 'low' : lowInRow, 'high' : highInRow, 'red' : redInRow, 'black' : blackInRow} 
     print stylesResult
@@ -175,7 +184,7 @@ def runWaitForRowStrategy(numberInRow):
     betLevel = 0
     numberOfWinGames = 0
     numberOfLoseGames = 0
-    balance = 544
+    balance = 150
     maxToleranceTime = 1080
 
     startTime = time.time()
@@ -201,5 +210,7 @@ def runWaitForRowStrategy(numberInRow):
             balance -= 62
             print "number of lose games", numberOfLoseGames, "balance: ", balance, "style: ", style
             style = waitForRow(numberInRow, maxToleranceTime, startTime)
+        
+    print "Total spins ", spinCounterTotal   
 
-runWaitForRowStrategy(8)
+runWaitForRowStrategy(2)

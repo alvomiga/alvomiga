@@ -75,6 +75,8 @@
 <span class="kw">import</span> time
 
 <span class="kw">global</span> startTime
+<span class="kw">global</span> spinCounterTotal
+spinCounterTotal = <span class="dig">0</span>
 
 <span class="kw">def</span> isWin():
     <span class="kw">if</span> exists(<img src="1460466965057.png" />):
@@ -129,6 +131,8 @@
 
     Region(<span class="dig">705</span>,<span class="dig">799</span>,<span class="dig">109</span>,<span class="dig">108</span>).<span class="skw">click</span>()
     time.<span class="skw">sleep</span>(<span class="dig">1</span>)
+    <span class="kw">global</span> spinCounterTotal
+    spinCounterTotal +=<span class="dig">1</span>
 
 <span class="kw">def</span> checkStyleFromSpin(style, textFromSpin):
     textFromSpin = textFromSpin.lower()
@@ -157,16 +161,17 @@
     Region(<span class="dig">717</span>,<span class="dig">828</span>,<span class="dig">95</span>,<span class="dig">90</span>).<span class="skw">click</span>()
     time.<span class="skw">sleep</span>(<span class="dig">1</span>)
     textFromSpin = Region(<span class="dig">435</span>,<span class="dig">754</span>,<span class="dig">73</span>,<span class="dig">24</span>).text()
-    colorRegion = <span class="skw">find</span>(<img src="1460730720660.png" />)
+    colorRegion = Region(<span class="dig">449</span>,<span class="dig">733</span>,<span class="dig">43</span>,<span class="dig">20</span>)
     colorPattern = colorRegion.getTopLeft().offset(<span class="dig">5</span>,<span class="dig">5</span>)
     robot = Robot()
     colorRobot = robot.getPixelColor(colorPattern.x, colorPattern.y)
     color = ( colorRobot.getRed())
-    <span class="kw">if</span> color == <span class="dig">173</span>:
+    <span class="kw">print</span> color
+    <span class="kw">if</span> color &gt; <span class="dig">165</span> <span class="kw">and</span> color &lt; <span class="dig">179</span>:
         colorRed = <span class="str">'red'</span>
         textFromSpin = textFromSpin + colorRed
         <span class="kw">return</span> textFromSpin
-    <span class="kw">elif</span> color == <span class="dig">31</span>:
+    <span class="kw">elif</span> color &gt; <span class="dig">24</span> <span class="kw">and</span> color &lt; <span class="dig">38</span>:
         colorBlack = <span class="str">'black'</span>
         textFromSpin = textFromSpin + colorBlack
         <span class="kw">return</span> textFromSpin
@@ -183,6 +188,7 @@
     blackInRow = <span class="dig">0</span>
 
     counter = <span class="dig">0</span>
+    spinCounterInRow = <span class="dig">0</span>
 
     <span class="kw">while</span> evenInRow != expectedInRow <span class="kw">and</span> oddInRow != expectedInRow <span class="kw">and</span> lowInRow != expectedInRow <span class="kw">and</span> highInRow != expectedInRow <span class="kw">and</span> redInRow != expectedInRow <span class="kw">and</span> blackInRow != expectedInRow:
 
@@ -225,6 +231,9 @@
 
         counter += <span class="dig">1</span>
 
+        <span class="kw">global</span> spinCounterTotal
+        spinCounterTotal += <span class="dig">1</span>
+
     stylesResult = {<span class="str">'even'</span> : evenInRow, <span class="str">'odd'</span> : oddInRow, <span class="str">'low'</span> : lowInRow, <span class="str">'high'</span> : highInRow, <span class="str">'red'</span> : redInRow, <span class="str">'black'</span> : blackInRow}
     <span class="kw">print</span> stylesResult
     <span class="kw">return</span> max(stylesResult, key=stylesResult.get)
@@ -247,7 +256,7 @@
     betLevel = <span class="dig">0</span>
     numberOfWinGames = <span class="dig">0</span>
     numberOfLoseGames = <span class="dig">0</span>
-    balance = <span class="dig">544</span>
+    balance = <span class="dig">150</span>
     maxToleranceTime = <span class="dig">1080</span>
 
     startTime = time.time()
@@ -274,7 +283,9 @@
             <span class="kw">print</span> <span class="str">"number of lose games"</span>, numberOfLoseGames, <span class="str">"balance: "</span>, balance, <span class="str">"style: "</span>, style
             style = waitForRow(numberInRow, maxToleranceTime, startTime)
 
-runWaitForRowStrategy(<span class="dig">8</span>)
+    <span class="kw">print</span> <span class="str">"Total spins "</span>, spinCounterTotal
+
+runWaitForRowStrategy(<span class="dig">2</span>)
 </pre>
 </body>
 </html>
